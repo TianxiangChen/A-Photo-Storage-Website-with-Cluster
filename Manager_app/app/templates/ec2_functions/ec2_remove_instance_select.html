@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+    <a href="/ec2_main"><input type="submit"  value="Back"></a><br>
+    Only the running user instances are shown.<br>
+    You can only remove one instance per time.<br>
+    {% if msg == 'No images uploaded yet' %}
+      <h3>{{msg}}t</h3>
+    {% endif %}
+    <table>
+    <thead>
+       <th></th>
+       <th>ID</th>
+       <th>Type</th>
+       <th>Availability Zone</th>
+       <th>Status</th>
+    </thead>
+
+    {% for instance in instances %}
+
+        <tr>
+            <td><input type="radio" name="choice" onclick="select_func( '{{instance.id}}'  );"></td>
+            <td>{{ instance.id }}</td>
+            <td>{{ instance.instance_type }}</td>
+            <td>{{ instance.placement['AvailabilityZone']}}</td>
+            <td>{{ instance.state['Name'] }}</td>
+        </tr>
+    {% endfor %}
+
+    </table>
+    Confirm to remove the instances selected?
+
+    <script>
+      function select_func(inst_id) {
+        // document.getElementById("demo").innerHTML = inst_id;
+        document.getElementById("selected").action= 'ec2_remove/' + inst_id;
+      }
+    </script>
+    <script>
+      function clearRadio(){
+      var ele = document.getElementsByName("choice");
+      for(var i=0;i<ele.length;i++)
+        ele[i].checked = false;
+      }
+      </script>
+      <table>
+      <td><form action="" id="selected" method="POST">
+        <input type="submit" value="Yes"></form></td>
+        <td><input type="button"  value="Clear" onclick="clearRadio();"></a></td>
+      </table>
+{% endblock %}

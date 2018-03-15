@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<link rel="stylesheet" href={{ url_for('static', filename='css/profile.css') }} type="text/css">
+
+<head>
+    <meta charset="UTF-8">
+    <title>About</title>
+</head>
+
+    <div class="container gallery-container">
+
+        <h1>There's nothing here...</h1>
+
+        <p class="about"> Try other links!</p>
+            <p class="page-description text-center">Try signing up!</p>
+            <form action="{{ url_for('signup') }}" method="GET">
+
+            <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Signup</button>
+            </form>
+
+            <p class="page-description text-center">Or use the easy-upload module</p>
+            <form action="{{ url_for('easy_upload') }}" method="GET">
+
+            <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Easy upload</button>
+            </form>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+By resetting the database,
+<ul style="list-style-type:disc">
+	<li>All the user info will be erased from database</li>
+	<li>All the photo path info will be earsed from database</li>
+	<li>All the photos will be removed from S3</li>
+</ul>
+Note: this page is under construction
+Do you want to reset the database?
+<table>
+<!-- <td><form action="{{url_for('ec2_create')}}" method="POST"> -->
+  <td>  <input type="submit" value="Yes"></form></td>
+<td><a href="/ec2_main"><input type="submit"  value="No"></a></td>
+</table>
+{% endblock %}

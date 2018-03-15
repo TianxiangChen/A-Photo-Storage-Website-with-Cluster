@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+{% block content %}
+    <link rel="stylesheet" href={{ url_for('static', filename='css/profile.css') }} type="text/css">
+    <body onload="selectElems()">
+
+    <h1 align="center">Please fill-in the form below for auto-scaling</h1>
+    <h3>Values on the page reflect current settings</h3>
+    <form action="{{url_for('ec2_autoscaling')}}" method="post">
+        <table>
+            <tr>
+                <td>CPU Threshold for Shrinking the Worker Pool</td>
+                <td><select name = "Threshold_Growth" id="growThresh">
+                    <option value="45">45</option>
+                    <option value="50">50</option>
+                    <option value="55">55</option>
+                    <option value="60">60</option>
+                    <option value="65">65</option>
+                    <option value="70">70</option>
+                    <option value="75">75</option>
+                </select></td>
+            </tr>
+            <br>
+            <tr>
+                <td>CPU Threshold for Growing the Worker Pool</td>
+                <td><select name = "Threshold_Shrink" id="shrinkThresh">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                    <option value="25">25</option>
+                    <option value="30">30</option>
+                    <option value="35">35</option>
+                    <option value="40">40</option>
+                </select></td>
+            </tr>
+            <br>
+            <tr>
+                <td>Ratio by which to Expand the Worker Pool</td>
+                <td><select name = "Ratio_Growth", id="growRate">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select></td>
+            </tr>
+            <br>
+            <tr>
+                <td>Ratio by which to Shrink the Worker Pool</td>
+                <td><select name = "Ratio_Shrink", id="shrinkRate">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select></td>
+            </tr>
+        </table>
+        <div align="center">
+            <a href="/ec2_main"><input type="submit"  value="Back" align="center">
+                <input type="submit" value="Submit" align="center">
+                <input type="reset" value="Reset" align="center">
+        </div>
+    </form>
+    </body>
+    <script type="text/javascript">
+        function selectElems() {
+            document.getElementById('growThresh').value = {{params[1]}};
+            document.getElementById('shrinkThresh').value = {{params[0]}};
+            document.getElementById('shrinkRate').value = {{params[2]}};
+            document.getElementById('growRate').value = {{params[3]}};
+        }
+    </script>
+{% endblock %}

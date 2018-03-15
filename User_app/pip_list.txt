@@ -1,0 +1,4 @@
+pip3 install Flask-SqlAlchemy
+pip3 install PyMySQL
+pip3 install werkzeug
+pip3 install Flask-WTF

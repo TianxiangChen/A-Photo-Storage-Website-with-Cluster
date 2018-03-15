@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+
+    <ul>
+        <li><a href="{{url_for('ec2_main')}}">EC2 Instances Control</a></li>
+        <li><a href="{{url_for('s3_list')}}">S3 Control</a></li>
+    </ul>
+
+{% endblock %}

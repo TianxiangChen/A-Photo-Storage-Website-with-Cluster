@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if msg %}
+        <br>
+        <div class="alert alert-success">
+            <strong>Success!</strong> {{ msg }}.
+        </div>
+        <br>
+    {% endif %}
+
+    {% if error %}
+        <br>
+        <div class="alert alert-danger">
+            <strong>Error!</strong> {{ error }}.
+        </div><br>
+    {% endif %}
+
+    <form action="{{ url_for('ec2_list') }}" method="GET">
+        <button type="submit" class="btn btn-sm">List instances</button>
+        <br>
+    </form>
+
+    <form action="{{url_for('ec2_create')}}" method="POST" onsubmit='return confirm("Create one instance?")'>
+        <button type="submit" class="btn btn-sm">Create one instance</button>
+        <br>
+    </form>
+
+    <form action="{{ url_for('ec2_remove_random') }}" method="POST" onsubmit='return confirm("Remove one instance?")'>
+        <button type="submit" class="btn btn-sm">Remove one instance</button>
+        <br>
+    </form>
+
+    <form action="{{ url_for('ec2_remove_instance_select') }}" method="GET">
+        <button type="submit" class="btn btn-sm">Select one instance to remove</button>
+        <br>
+    </form>
+
+    <form action="{{ url_for('ec2_autoscaling') }}" method="GET">
+        <button type="submit" class="btn btn-sm">Set auto-scaling params</button>
+        <br>
+    </form>
+
+    <form action="{{ url_for('ec2_reset') }}" method="POST" onsubmit='return confirm("Remove All data?? Not recoverable!")'>
+        <button type="submit" class="btn btn-sm">Purge database</button>
+        <br>
+    </form>
+{% endblock %}

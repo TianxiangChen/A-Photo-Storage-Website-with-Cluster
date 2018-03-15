@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+An user instance will be created with following properties:
+<ul style="list-style-type:disc">
+	<li>Key Pair Name: ece1779a1</li>
+	<li>Instance Type: t2.micro</li>
+	<li>Availble Zone: us-east-1</li>
+	<li>Secure Group ID: sg-06d4e674</li>
+</ul>
+Create such a new instance?
+<table>
+<td><form action="{{url_for('ec2_create')}}" method="POST">
+    <input type="submit" value="Yes"></form></td>
+<td><a href="/ec2_main"><input type="submit"  value="No"></a></td>
+</table>
+{% endblock %}

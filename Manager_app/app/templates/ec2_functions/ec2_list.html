@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block content %}
+    <link rel="stylesheet" href={{ url_for('static', filename='css/profile.css') }} type="text/css">
+
+    <div class="container gallery-container">
+
+        {% if msg %}
+            <br>
+            <div class="alert alert-success">
+                <strong>Success!</strong> {{ msg }}.
+            </div>
+            <br>
+        {% endif %}
+
+        {% if error %}
+            <br>
+            <div class="alert alert-danger">
+                <strong>Error!</strong> {{ error }}.
+            </div><br>
+        {% endif %}
+
+
+        <h1>EC2 user instance list</h1>
+
+
+        <p class="page-description text-center">Only the user instances are shown here (not including DB server)</p>
+        <p class="page-description text-center">CPU usage avilable for running instances only, data will ba available about one minute after it starts</p>
+        <form action="{{ url_for('ec2_create') }}" method="POST" onsubmit='return confirmCreation()'>
+            <button type="submit" class="btn btn-sm" onclick="showSpinner()">Create instance</button>
+        </form>
+        <br>
+
+        <form action="{{ url_for('ec2_remove_random') }}" method="POST" onsubmit='return confirmDeletion()'>
+            <button type="submit" class="btn btn-sm" onclick="showSpinner()">Remove one instance</button>
+        </form>
+
+        <div class="modal" style="display: none;" id="spinner">
+            <div class="modal-content">
+                <div class="spinner" style="opacity: 1"></div>
+            </div>
+        </div>
+
+
+        <table align="center">
+            <thead>
+            <th>ID</th>
+            <th>Type</th>
+            <th>Availability Zone</th>
+            <th>Status</th>
+            <th>CPU Utilization</th>
+            <th>Action</th>
+            </thead>
+            {% for instance in instances %}
+                <tr>
+                    <td align="left">{{ instance.id }}</td>
+                    <td align="center">{{ instance.instance_type }}</td>
+                    <td align="center">{{ instance.placement['AvailabilityZone']}}</td>
+                    <td align="center">{{ instance.state['Name'] }}</td>
+                    <td align="center">{{ instance.cpu }}</td>
+                    <td>
+                        {% if instance.state['Name'] == 'running' %}
+                        <form action="{{url_for('ec2_remove',id=instance.id)}}" method='POST' onsubmit="return confirmDeletion()">
+                            <button type="submit" onclick="showSpinner()">Remove</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+        <a href="/ec2_main"><input type="submit"  value="Back"></a>
+    </div>
+
+    <script>
+        function showSpinner() {
+            document.getElementById("spinner").style.display = 'block';
+        }
+        function hideSpinner() {
+            document.getElementById("spinner").style.display = 'none';
+        }
+        function confirmCreation() {
+            if (!confirm("OK to create an instance?")) {
+                hideSpinner();
+                return false;
+            }
+        }
+        function confirmDeletion() {
+            if (!confirm("OK to remove an instance?")) {
+                hideSpinner();
+                return false;
+            }
+        }
+    </script>
+
+
+{% endblock %}

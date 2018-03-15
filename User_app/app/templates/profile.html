@@ -1,0 +1,169 @@
+{% extends "layout.html" %}
+{% block content %}
+<link rel="stylesheet" href={{ url_for('static', filename='css/profile.css') }} type="text/css">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Gallery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.8.1/baguetteBox.min.css">
+</head>
+
+    <div class="container gallery-container">
+
+        <h1>Welcome to your gallery, {{ session['username'] }}!</h1>
+
+        {% if image_dict.keys() %}
+            <p class="page-description text-center">Click to see transforms</p>
+            <p class="page-description text-center">Or use the easy-upload module</p>
+            <form action="{{ url_for('upload_form') }}" method="GET">
+
+            <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Upload more</button>
+            </form>
+
+        {% else %}
+            <p class="page-description text-center">Please start with uploading pictures</p>
+            <form action="{{ url_for('upload_form') }}" method="GET">
+
+            <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Start uploading</button>
+            </form>
+
+        {% endif %}
+
+        
+        <div class="tz-gallery">
+
+            <div class="row">
+                {% for image_name, transforms in image_dict.items() %}
+                <div class="col-sm-6 col-md-4">
+                    <img class="img-responsive" src="{{image_name}}" onclick="openModal(this);">
+                    <div class="hiddenImg">
+                        {% for transformImg in transforms %}
+                            <img src="{{transformImg}}" style="display: none;">
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- image modal -->
+    <div id="myModal" class="modal">
+      <span class="close cursor" onclick="closeModal()">&times;</span>
+      <div class="modal-content">
+
+        <div class="mySlides">
+          <div class="numbertext">1 / 4</div>
+          <img id="mainImg" style="width:100%">
+        </div>
+
+        <div class="mySlides">
+          <div class="numbertext">2 / 4</div>
+          <img id="transform1" style="width:100%">
+        </div>
+
+        <div class="mySlides">
+          <div class="numbertext">3 / 4</div>
+          <img id="transform2" style="width:100%">
+        </div>
+
+        <div class="mySlides">
+          <div class="numbertext">4 / 4</div>
+          <img id="transform3" style="width:100%">
+        </div>
+
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+        <div class="caption-container">
+          <p id="caption"></p>
+        </div>
+
+        <div class="column">
+          <img class="demo" id="mainImgPreview" style="width: 100%" onclick="currentSlide(1)">
+        </div>
+
+        <div class="column">
+          <img class="demo" id="transform1Preview" style="width: 100%" onclick="currentSlide(2)">
+        </div>
+
+        <div class="column">
+          <img class="demo" id="transform2Preview" style="width: 100%" onclick="currentSlide(3)">
+        </div>
+
+        <div class="column">
+          <img class="demo" id="transform3Preview" style="width: 100%" onclick="currentSlide(4)">
+        </div>
+      </div>
+    </div>
+<!--     <script src={{ url_for('static', filename='js/displayImg.js') }}></script>
+ -->
+ <script>
+function openModal(obj) {
+  var imgs = []
+
+  var transformImgs = obj.nextElementSibling.children
+
+  for (var i = transformImgs.length - 1; i >= 0; i--) {
+      imgs.push(transformImgs[i].src)
+  }
+
+  console.log(imgs)
+  document.getElementById('mainImg').src = imgs[0];
+  document.getElementById('mainImgPreview').src = imgs[0];
+  document.getElementById('transform1').src = imgs[1];
+  document.getElementById('transform1Preview').src = imgs[1];
+  document.getElementById('transform2').src = imgs[2];
+  document.getElementById('transform2Preview').src = imgs[2];
+  document.getElementById('transform3').src = imgs[3];
+  document.getElementById('transform3Preview').src = imgs[3];
+
+  document.getElementById('myModal').style.display = "block";
+}
+
+function closeModal() {
+  document.getElementById('myModal').style.display = "none";
+}
+
+var slideIndex = 1;
+showSlides(slideIndex);
+
+function plusSlides(n) {
+  showSlides(slideIndex += n);
+}
+
+function currentSlide(n) {
+  showSlides(slideIndex = n);
+}
+
+function showSlides(n) {
+  var i;
+  var slides = document.getElementsByClassName("mySlides");
+  var dots = document.getElementsByClassName("demo");
+  var captionText = document.getElementById("caption");
+
+  if (n > slides.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = slides.length}
+
+  var description = ['Original Image', 'Color shift', 'Flip', 'Level change']
+  document.getElementById("caption").innerHTML = description[slideIndex-1]
+
+
+  for (i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+
+
+
+  slides[slideIndex-1].style.display = "block";
+  dots[slideIndex-1].className += " active";
+  // captionText.innerHTML = dots[slideIndex-1].alt;
+}
+</script>
+{% endblock %}

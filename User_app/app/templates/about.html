@@ -1,0 +1,31 @@
+{% extends "layout.html" %}
+{% block content %}
+<link rel="stylesheet" href={{ url_for('static', filename='css/profile.css') }} type="text/css">
+
+<head>
+    <meta charset="UTF-8">
+    <title>About</title>
+</head>
+
+    <div class="container gallery-container">
+
+        <h1>About ECE1779 assignment 1</h1>
+
+        <p class="about"> Author: Luyuan Chen (999516082)</p>
+        <p class="about"> Author: Tianxiang Chen (999473181)</p>
+        <p class="about"> This is the assignment2 for <i>ECE1779 Introduction to Cloud computing</i>. <br> We tried to excersize as much in this assigment, by not using templates that can be downloaded from the internet. Although we used Bootstrap CSS files, we constructed every page ourselves. This website supports user sign up and upload images. The image uploaded will be processed by the backend to generate 3 transformations, that are <b>flipping, level change and color shifting</b>. The transformations can be seen by click on the thumbnail in the <a href="{{ url_for('home') }}">gallery (requires account)</a>. The displaying of the modal overlay took much time to perfect. The idea was, showing transformed image alongside with the original one is not elegant, and we wanted to show them once you clicked on it. <br> We still need to add a function for user to delete the images. <br><br> We really wish you liked my design and work. Thanks for your time!</p>
+
+            <p class="page-description text-center">Try me by signing up!</p>
+            <form action="{{ url_for('signup') }}" method="GET">
+
+            <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Signup</button>
+            </form>
+
+            <p class="page-description text-center">Or use the easy-upload module</p>
+            <form action="{{ url_for('easy_upload') }}" method="GET">
+
+            <button type="submit" class="btn btn-sm btn-primary" id="js-upload-submit">Easy upload</button>
+            </form>
+            <br><br>
+    </div>
+{% endblock %}
